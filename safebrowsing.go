@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
 // Based on ChromeExtensionClientRequest in:
@@ -77,8 +75,7 @@ func (s Submitter) Submit(report Report) error {
 	if err != nil {
 		return err
 	}
-	spew.Dump(resp)
-	resp.Body.Close()
+	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("unexpected response status: %d", resp.StatusCode)
 	}
